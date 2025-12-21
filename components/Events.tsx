@@ -1,0 +1,387 @@
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { MapPin, Watch } from "lucide-react";
+import Image from "next/image";
+
+type Language = "en" | "hi" | "gu";
+
+interface EventsProps {
+  language?: Language;
+}
+
+const iosSpring = {
+  type: "spring" as const,
+  stiffness: 300,
+  damping: 30,
+  mass: 0.8,
+};
+
+const iosSoftSpring = {
+  type: "spring" as const,
+  stiffness: 200,
+  damping: 24,
+  mass: 0.9,
+};
+
+const iosFade = {
+  duration: 0.35,
+  ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+};
+
+const translations = {
+  eventsTitle: {
+    en: "Wedding Events",
+    hi: "शादी के कार्यक्रम",
+    gu: "લગ્ન કાર્યક્રમો",
+  },
+};
+
+const groomsEventsByDay = [
+  {
+    date: "23rd January 2025",
+    dayNumber: 1,
+    dayLabel: { en: "Day 1 - Babra", hi: "दिन 1", gu: "દિવસ 1" },
+    events: [
+      {
+        name: {
+          en: "Sanjina Geet",
+          hi: "सांजिना गीत",
+          gu: "સાંજિના ગીત",
+        },
+        date: "23rd January 2025",
+        time: "5:00 PM",
+        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_1",
+        image:
+          "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        name: {
+          en: "Dandiya Raas",
+          hi: "डांडिया रास",
+          gu: "ડાંડીયા રાસ",
+        },
+        date: "23rd January 2025",
+        time: "9:00 PM",
+        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_2",
+        image:
+          "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+    ],
+  },
+  {
+    date: "24th January 2025",
+    dayNumber: 2,
+    dayLabel: { en: "Day 2 - Babra", hi: "दिन 2", gu: "દિવસ 2" },
+    events: [
+      {
+        name: {
+          en: "Mandap",
+          hi: "मंडप",
+          gu: "મંડપ",
+        },
+        date: "24th January 2025",
+        time: "8:00 AM",
+        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_3",
+        image:
+          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        name: {
+          en: "Mamera",
+          hi: "मामेरा",
+          gu: "મામેરા",
+        },
+        date: "24th January 2025",
+        time: "10:00 AM",
+        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_4",
+        image:
+          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        name: {
+          en: "Jamanvar",
+          hi: "जमणवार",
+          gu: "જમણવાર",
+        },
+        date: "24th January 2025",
+        time: "12:00 PM",
+        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_5",
+        image:
+          "https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        name: {
+          en: "Pithi",
+          hi: "पीठी समारोह",
+          gu: "પીઠી",
+        },
+        date: "24th January 2025",
+        time: "3:30 PM",
+        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_6",
+        image:
+          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+    ],
+  },
+  {
+    date: "25th January 2025",
+    dayNumber: 3,
+    dayLabel: {
+      en: "Day 3 - Rajkot",
+      hi: "दिन 3 - राजकोट",
+      gu: "દિવસ 3 - રાજકોટ",
+    },
+    events: [
+      {
+        name: {
+          en: "Chundadi Vidhi",
+          hi: "चुनरी विधि",
+          gu: "ચુંદડી વિધિ",
+        },
+        date: "25th January 2025",
+        time: "10:00 AM",
+        mapUrl: "https://maps.google.com/?q=Rajkot",
+        image:
+          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        name: {
+          en: "Varghodo",
+          hi: "वरघोड़ा",
+          gu: "વરઘોડો",
+        },
+        date: "25th January 2025",
+        time: "11:00 AM",
+        mapUrl: "https://maps.google.com/?q=Rajkot",
+        image:
+          "https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+    ],
+  },
+];
+
+export default function Events({ language = "en" }: EventsProps) {
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+
+  const handleCardClick = (index: number) => {
+    setSelectedDayIndex(index);
+  };
+
+  const getCardPosition = (index: number) => {
+    const diff = index - selectedDayIndex;
+    const total = groomsEventsByDay.length;
+
+    let normalized = diff;
+    if (diff > total / 2) normalized = diff - total;
+    if (diff < -total / 2) normalized = diff + total;
+
+    if (normalized === 0) {
+      return {
+        x: "0%",
+        scale: 1,
+        y: -10,
+        zIndex: 30,
+        opacity: 1,
+        visible: true,
+      };
+    }
+
+    if (normalized === -1) {
+      return {
+        x: "-70%",
+        scale: 0.5,
+        y: 0,
+        zIndex: 10,
+        opacity: 0.2,
+        visible: true,
+      };
+    }
+
+    if (normalized === 1) {
+      return {
+        x: "70%",
+        scale: 0.5,
+        y: 0,
+        zIndex: 10,
+        opacity: 0.2,
+        visible: true,
+      };
+    }
+
+    return {
+      x: normalized < 0 ? "-120%" : "120%",
+      scale: 0.8,
+      y: 0,
+      zIndex: 0,
+      opacity: 0,
+      visible: false,
+    };
+  };
+
+  return (
+    <section className="min-h-screen bg-gradient-to-b from-rose-50 to-white p-4 overflow-hidden flex items-center">
+      <div className="w-full max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={iosSoftSpring}
+          className="text-center mb-6"
+        >
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-slate-800">
+            {translations.eventsTitle[language]}
+          </h2>
+          <div className="w-16 h-px bg-rose-300 mx-auto mt-3" />
+          <p className="text-sm text-slate-500 mt-3">
+            Day {selectedDayIndex + 1} of {groomsEventsByDay.length}
+          </p>
+        </motion.div>
+
+        <div className="relative">
+          <div className="relative h-[550px] flex items-center justify-center">
+            {groomsEventsByDay.map((day, dayIndex) => {
+              const position = getCardPosition(dayIndex);
+              const isCenter = dayIndex === selectedDayIndex;
+
+              return (
+                <motion.div
+                  key={dayIndex}
+                  initial={{ opacity: 0, scale: 0.94, y: 30 }}
+                  animate={{
+                    x: position.x,
+                    scale: position.scale,
+                    y: position.y,
+                    opacity: position.opacity,
+                    zIndex: position.zIndex,
+                  }}
+                  transition={{
+                    x: iosSpring,
+                    y: iosSpring,
+                    scale: iosSpring,
+                    opacity: iosFade,
+                  }}
+                  onClick={() => handleCardClick(dayIndex)}
+                  className={`absolute w-[340px] cursor-pointer ${
+                    !position.visible ? "pointer-events-none" : ""
+                  }`}
+                >
+                  <motion.div
+                    whileHover={isCenter ? { y: -6, scale: 1.02 } : undefined}
+                    whileTap={isCenter ? { scale: 0.98 } : { scale: 0.95 }}
+                    transition={iosSoftSpring}
+                    className="bg-white backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden border border-gray-200/50 p-3"
+                  >
+                    <div className="px-5 py-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-serif text-lg font-bold text-slate-800 tracking-tight">
+                            {day.dayLabel[language]}
+                          </h3>
+                          <p className="text-xs text-slate-500 mt-1 font-medium">
+                            {day.date}
+                          </p>
+                        </div>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.2, ...iosSoftSpring }}
+                          className="bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg shadow-rose-200/50"
+                        >
+                          {day.events.length}{" "}
+                          {day.events.length === 1 ? "Event" : "Events"}
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    <div
+                      className="p-2 space-y-3 max-h-[400px] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-inner"
+                      style={{
+                        scrollbarWidth: "thin",
+                        scrollbarColor: "#fb7185 transparent",
+                      }}
+                    >
+                      {day.events.map((event, eventIndex) => (
+                        <motion.div
+                          key={eventIndex}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: eventIndex * 0.08,
+                            ...iosSoftSpring,
+                          }}
+                          whileHover={{ scale: 1.02, y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="bg-gradient-to-br from-white to-rose-50/30 rounded-xl overflow-hidden transition-all duration-300"
+                        >
+                          <div className="relative h-32 overflow-hidden">
+                            <motion.div
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ duration: 0.4 }}
+                              className="w-full h-full"
+                            >
+                              <Image
+                                src={event.image}
+                                alt={event.name[language]}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 340px"
+                                className="object-cover"
+                              />
+                            </motion.div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                            <motion.h4
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.1 }}
+                              className="absolute bottom-3 left-4 font-serif text-xl text-white drop-shadow-2xl font-semibold"
+                            >
+                              {event.name[language]}
+                            </motion.h4>
+                          </div>
+
+                          <div className="p-2 flex items-center justify-between gap-3 bg-pink-50">
+                            <div className="flex items-center gap-2 text-sm text-slate-700">
+                              <div className="bg-white p-1.5 rounded-lg">
+                                <Watch className="w-4 h-4 text-rose-500" />
+                              </div>
+                              <span className="font-medium">{event.time}</span>
+                            </div>
+
+                            <motion.a
+                              href={event.mapUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              whileHover={{ scale: 1.03, y: -1 }}
+                              whileTap={{ scale: 0.97 }}
+                              transition={iosSpring}
+                              className="flex items-center gap-2 text-sm font-semibold text-slate-700 underline"
+                            >
+                              <div className="bg-white p-1.5 rounded-lg">
+                                <MapPin className="w-4 h-4 text-rose-500" />
+                              </div>
+                              <span className="font-medium">
+                                Go to location
+                              </span>
+                            </motion.a>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, ...iosFade }}
+          className="text-center mt-3 text-sm text-slate-500 font-medium"
+        >
+          ← Tap cards to navigate →
+        </motion.p>
+      </div>
+    </section>
+  );
+}
