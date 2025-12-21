@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { Language } from "@/types";
 import { ArrowLeft } from "lucide-react";
@@ -36,9 +36,9 @@ const iosSoftSpring = {
   mass: 1,
 };
 
-/* ───────────────────────── Component ───────────────────────── */
+/* ───────────────────────── Main Content Component ───────────────────────── */
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const [language, setLanguage] = useState<Language>("en");
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -160,7 +160,7 @@ export default function Home() {
   const shouldShowBottomNav = !(currentScreen === 4 && isRSVPSubmitted);
 
   return (
-    <main className="min-h-screen bg-white overflow-hidden">
+    <>
       {showLoader && (
         <WeddingLoader onLoadingComplete={handleLoadingComplete} />
       )}
@@ -242,6 +242,18 @@ export default function Home() {
           </AnimatePresence>
         </>
       )}
+    </>
+  );
+}
+
+/* ───────────────────────── Wrapper with Suspense ───────────────────────── */
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-white overflow-hidden">
+      <Suspense fallback={<div className="min-h-screen bg-white" />}>
+        <HomeContent />
+      </Suspense>
     </main>
   );
 }
