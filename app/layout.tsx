@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://yashmi-wedding-invite.vercel.app/couple.png",
+        url: "/images/couple.png",
         width: 1200,
         height: 630,
         alt: "Wedding Invitation",
