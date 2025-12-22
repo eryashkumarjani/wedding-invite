@@ -16,6 +16,7 @@ interface ProgressiveImageProps {
   objectPosition?: string;
   sizes?: string;
   quality?: number;
+  transparent?: boolean;
 }
 
 export default function ProgressiveImage({
@@ -30,6 +31,7 @@ export default function ProgressiveImage({
   objectPosition = "center",
   sizes,
   quality = 85,
+  transparent = false,
 }: ProgressiveImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -44,7 +46,7 @@ export default function ProgressiveImage({
       <>
         {/* Loading State */}
         <AnimatePresence>
-          {isLoading && !hasError && (
+          {isLoading && !hasError && !transparent && (
             <motion.div
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -68,8 +70,8 @@ export default function ProgressiveImage({
               fill
               priority={priority}
               quality={quality}
-              placeholder="blur"
-              blurDataURL={shimmerDataURL}
+              placeholder={transparent ? "empty" : "blur"}
+              blurDataURL={transparent ? undefined : shimmerDataURL}
               sizes={sizes || "100vw"}
               className={className}
               style={{
@@ -112,7 +114,7 @@ export default function ProgressiveImage({
     <div className="relative inline-block">
       {/* Loading State */}
       <AnimatePresence>
-        {isLoading && !hasError && (
+        {isLoading && !hasError && !transparent && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -136,8 +138,8 @@ export default function ProgressiveImage({
             height={height}
             priority={priority}
             quality={quality}
-            placeholder="blur"
-            blurDataURL={shimmerDataURL}
+            placeholder={transparent ? "empty" : "blur"}
+            blurDataURL={transparent ? undefined : shimmerDataURL}
             sizes={sizes}
             className={className}
             onLoad={() => {

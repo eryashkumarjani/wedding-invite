@@ -219,15 +219,15 @@ export default function Events({ language = "en" }: EventsProps) {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-rose-50 to-white p-4 overflow-hidden flex items-center">
+    <section className="min-h-screen bg-gradient-to-b from-rose-50 to-white p-4 overflow-hidden flex">
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={iosSoftSpring}
-          className="text-center mb-6"
+          className="text-center my-12"
         >
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-slate-800">
+          <h2 className="font-serif text-2xl text-slate-800">
             {translations.eventsTitle[language]}
           </h2>
           <div className="w-16 h-px bg-rose-300 mx-auto mt-3" />
@@ -237,7 +237,7 @@ export default function Events({ language = "en" }: EventsProps) {
         </motion.div>
 
         <div className="relative">
-          <div className="relative h-[550px] flex items-center justify-center">
+          <div className="relative h-[480px] flex items-center justify-center">
             {groomsEventsByDay.map((day, dayIndex) => {
               const position = getCardPosition(dayIndex);
               const isCenter = dayIndex === selectedDayIndex;
@@ -260,7 +260,7 @@ export default function Events({ language = "en" }: EventsProps) {
                     opacity: iosFade,
                   }}
                   onClick={() => handleCardClick(dayIndex)}
-                  className={`absolute w-[340px] cursor-pointer ${
+                  className={`absolute w-[320px] cursor-pointer ${
                     !position.visible ? "pointer-events-none" : ""
                   }`}
                 >
@@ -292,13 +292,7 @@ export default function Events({ language = "en" }: EventsProps) {
                       </div>
                     </div>
 
-                    <div
-                      className="p-2 space-y-3 max-h-[400px] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-inner"
-                      style={{
-                        scrollbarWidth: "thin",
-                        scrollbarColor: "#fb7185 transparent",
-                      }}
-                    >
+                    <div className="p-2 space-y-3 max-h-[350px] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-inner">
                       {day.events.map((event, eventIndex) => (
                         <motion.div
                           key={eventIndex}
@@ -372,15 +366,6 @@ export default function Events({ language = "en" }: EventsProps) {
             })}
           </div>
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, ...iosFade }}
-          className="text-center mt-3 text-sm text-slate-500 font-medium"
-        >
-          ← Tap cards to navigate →
-        </motion.p>
       </div>
     </section>
   );

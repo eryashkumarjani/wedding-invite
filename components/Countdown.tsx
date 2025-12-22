@@ -173,7 +173,7 @@ export default function Countdown({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-6"
+          className="text-center mb-2"
         >
           <motion.div
             animate={{ y: [0, -8, 0] }}
@@ -183,7 +183,7 @@ export default function Countdown({
             <Calendar className="w-6 h-6 text-white" />
           </motion.div>
 
-          <h2 className="font-serif text-[2rem] text-white mb-6 leading-tight drop-shadow-2xl font-semibold tracking-tight">
+          <h2 className="font-serif text-2xl text-white mb-6 leading-tight drop-shadow-2xl font-semibold tracking-tight">
             {translations.countdown.title[language]}
           </h2>
 
@@ -226,7 +226,7 @@ export default function Countdown({
                       transition={{ duration: 0.4 }}
                       className="absolute"
                     >
-                      <div className="text-3xl font-bold text-white drop-shadow-2xl tracking-wide">
+                      <div className="text-2xl font-bold text-white drop-shadow-2xl tracking-wide">
                         {unit.value.toString().padStart(2, "0")}
                       </div>
                     </motion.div>
@@ -235,7 +235,7 @@ export default function Countdown({
 
                 <div className="text-center">
                   <div className="inline-block px-2 md:px-3 pb-1 bg-white/10 backdrop-blur-md rounded-full border border-white/30">
-                    <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-white font-sans">
+                    <span className="text-[9px] font-semibold uppercase tracking-widest text-white font-sans">
                       {unit.label}
                     </span>
                   </div>
@@ -261,7 +261,7 @@ export default function Countdown({
           className="text-center"
         >
           <div className="inline-block bg-white/10 backdrop-blur-xl rounded-full px-6 py-2 shadow-2xl border border-white/20">
-            <p className="text-base font-light text-white italic flex items-center gap-2 md:gap-3 font-sans">
+            <p className="text-[12px] font-light text-white italic flex items-center gap-2 md:gap-3 font-sans">
               <Heart
                 className="w-4 h-4 md:w-5 md:h-5 text-rose-300"
                 fill="currentColor"

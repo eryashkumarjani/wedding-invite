@@ -97,3 +97,23 @@
   );
   transform-style: preserve-3d;
 }
+
+/* ===== Webkit Browsers ===== */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 9999px;
+}
+
+/* ===== Firefox ===== */
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent;
+}

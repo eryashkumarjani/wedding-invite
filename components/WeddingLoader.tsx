@@ -172,7 +172,7 @@ export default function WeddingLoader({
 
   return (
     <AnimatePresence>
-      {showLoader && (
+      {showLoader && imagesLoaded && (
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -201,7 +201,7 @@ export default function WeddingLoader({
               duration: 5,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute top-52 z-20 flex justify-center"
+            className="absolute top-44 z-20 flex justify-center"
           >
             <div className="relative">
               <ProgressiveImage
@@ -211,6 +211,7 @@ export default function WeddingLoader({
                 height={70}
                 className="object-contain"
                 priority
+                transparent
               />
             </div>
           </motion.div>
@@ -229,7 +230,7 @@ export default function WeddingLoader({
               duration: 5,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute left-0 bottom-20 sm:bottom-28 z-30"
+            className="absolute left-0 bottom-8 z-30"
           >
             <div className="relative max-w-full max-h-full">
               <ProgressiveImage
@@ -239,6 +240,7 @@ export default function WeddingLoader({
                 height={900}
                 className="object-contain drop-shadow-[0_35px_60px_rgba(0,0,0,0.35)] w-[600px] sm:w-[900px]"
                 priority
+                transparent
               />
             </div>
           </motion.div>
@@ -257,7 +259,7 @@ export default function WeddingLoader({
               duration: 5,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute right-0 bottom-16 sm:bottom-24 z-20"
+            className="absolute right-0 bottom-6 z-20"
           >
             <div className="relative max-w-full max-h-full">
               <ProgressiveImage
@@ -267,6 +269,7 @@ export default function WeddingLoader({
                 height={900}
                 className="object-contain drop-shadow-[0_35px_60px_rgba(0,0,0,0.35)] w-[600px] sm:w-[900px]"
                 priority
+                transparent
               />
             </div>
           </motion.div>

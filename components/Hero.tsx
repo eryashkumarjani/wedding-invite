@@ -64,7 +64,7 @@ export default function Hero({ language, guest }: HeroProps) {
     // Move to top after delay
     const timer = setTimeout(async () => {
       await greetingControls.start({
-        top: "90px",
+        top: "50px",
         y: "0%",
         transition: appleSpring,
       });
@@ -113,7 +113,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={appleSpring}
-                className="font-sans text-xl text-rose-400 tracking-wide font-bold"
+                className="font-sans text-md text-rose-400 tracking-wide font-bold"
               >
                 {language === "en" && "Dear"}
                 {language === "hi" && "प्रिय"}
@@ -124,7 +124,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={appleSpring}
-                className="font-serif text-2xl text-slate-800 font-semibold uppercase w-[90vw] px-4"
+                className="font-serif text-lg text-slate-800 font-semibold uppercase w-[90vw] px-4"
               >
                 {guestName}
               </motion.h3>
@@ -143,7 +143,7 @@ export default function Hero({ language, guest }: HeroProps) {
           ========================= */}
           {showMainContent && (
             <motion.div
-              className="mt-18"
+              className="mt-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -152,7 +152,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...appleSpring, delay: guestName ? 0 : 0.25 }}
-                className="font-sans text-xs uppercase tracking-[0.35em] text-slate-500 mb-2 font-light"
+                className="font-sans text-xs uppercase tracking-[0.35em] text-slate-500 mb-2 mt-10 font-light"
               >
                 {language === "en" && "Together With Their Families"}
                 {language === "hi" && "अपने परिवारों के साथ"}
@@ -163,7 +163,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...appleSpring, delay: guestName ? 0.1 : 0.35 }}
-                className="font-serif text-[2rem] mb-16 leading-tight tracking-tight text-slate-800 font-semibold"
+                className="font-serif text-3xl mb-6 leading-tight tracking-tight text-slate-800 font-semibold"
               >
                 {translations.heroTitle[language]}
               </motion.h1>
@@ -175,7 +175,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ ...appleSpring, delay: 0.5 }}
-                className="mb-24 mx-auto w-48 h-48"
+                className="mb-22 mx-auto w-48 h-48"
                 style={{
                   filter:
                     "drop-shadow(0 18px 28px rgba(0,0,0,0.25)) drop-shadow(0 0 18px rgba(255,182,193,0.35))",
@@ -210,8 +210,8 @@ export default function Hero({ language, guest }: HeroProps) {
                     <ProgressiveImage
                       src="/images/optimized/couple.webp"
                       alt="Couple"
-                      width={800}
-                      height={800}
+                      width={700}
+                      height={700}
                       priority={true}
                       quality={90}
                       className="object-cover w-full h-full"
@@ -235,18 +235,11 @@ export default function Hero({ language, guest }: HeroProps) {
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ ...appleSoftSpring, delay: 0.55 }}
-                className="h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto rounded-full mt-7 w-[100px]"
-              />
-
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ ...appleSpring, delay: 0.65 }}
-                className="font-sans text-slate-600 mb-2 mt-7 leading-relaxed font-light text-[15px]"
+                className="font-sans text-slate-600 my-2 leading-relaxed font-light text-sm"
               >
                 {translations.heroSubtitle[language]}
               </motion.p>

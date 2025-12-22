@@ -52,7 +52,7 @@ export default function VideoInvitation({ language }: VideoInvitationProps) {
       <div className="w-full max-w-md">
         {/* TITLE */}
         <motion.div {...iosFadeUp} className="text-center mb-3">
-          <h2 className="font-serif text-4xl text-slate-800 mb-2">
+          <h2 className="font-serif text-2xl text-slate-800 mb-2">
             {translations.videoSection.title[language]}
           </h2>
 
@@ -71,7 +71,7 @@ export default function VideoInvitation({ language }: VideoInvitationProps) {
           transition={{ ...iosSpring, delay: 0.1 }}
           className="flex justify-center"
         >
-          <div className="w-full max-w-sm">
+          <div className="w-80 max-w-sm">
             <div className="relative rounded-2xl overflow-hidden border border-rose-100 bg-black aspect-[9/16] sm:aspect-video mb-8 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
               <AnimatePresence mode="wait">
                 {!isPlaying ? (

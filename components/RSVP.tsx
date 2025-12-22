@@ -419,7 +419,7 @@ export default function RSVP({
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.1, ease: iosEase }}
-        className="relative z-10 w-full max-w-sm mx-auto bg-white/90 backdrop-blur-xl rounded-2xl mt-24 shadow-2xl"
+        className="relative z-10 w-90 mx-auto bg-white backdrop-blur-xl rounded-2xl mt-14 shadow-2xl"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -427,7 +427,7 @@ export default function RSVP({
           transition={{ duration: 0.6, delay: 0.3, ease: iosEase }}
           className="text-center bg-black rounded-t-2xl py-2 mb-3"
         >
-          <p className="text-xl text-white font-light">
+          <p className="text-lg text-white font-light">
             {translations.rsvpSubtitle[language]}
           </p>
         </motion.div>
@@ -459,7 +459,7 @@ export default function RSVP({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6, ease: iosEase }}
           onSubmit={(e) => e.preventDefault()}
-          className="space-y-5 w-[70vw] mx-auto pb-6"
+          className="space-y-5 w-[75vw] mx-auto pb-6"
         >
           <motion.div
             initial={{ opacity: 0, x: -20 }}
