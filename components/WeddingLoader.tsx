@@ -136,6 +136,7 @@ export default function WeddingLoader({
                 height={150}
                 className="object-contain"
                 priority
+                transparent
               />
             </div>
           </motion.div>
@@ -188,6 +189,7 @@ export default function WeddingLoader({
               fill
               className="object-cover"
               priority
+              transparent
             />
             {/* Overlay for better visibility */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
