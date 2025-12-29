@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { MapPin, Watch } from "lucide-react";
-import Image from "next/image";
+import { MapPin, Clock } from "lucide-react";
 
 type Language = "en" | "hi" | "gu";
 
@@ -34,13 +33,20 @@ const translations = {
     hi: "शादी के कार्यक्रम",
     gu: "લગ્ન કાર્યક્રમો",
   },
+  viewOnMap: {
+    en: "View on Map",
+    hi: "मैप पर देखें",
+    gu: "નકશા પર જુઓ",
+  },
 };
 
 const groomsEventsByDay = [
   {
     date: "23rd January 2025",
     dayNumber: 1,
-    dayLabel: { en: "Day 1 - Babra", hi: "दिन 1", gu: "દિવસ 1" },
+    dayLabel: { en: "Day 1", hi: "दिन 1", gu: "દિવસ 1" },
+    location: { en: "Babra", hi: "बाबरा", gu: "બાબરા" },
+    mapUrl: "https://maps.google.com/?q=Babra,Gujarat",
     events: [
       {
         name: {
@@ -50,7 +56,6 @@ const groomsEventsByDay = [
         },
         date: "23rd January 2025",
         time: "5:00 PM",
-        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_1",
         image:
           "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -62,7 +67,6 @@ const groomsEventsByDay = [
         },
         date: "23rd January 2025",
         time: "9:00 PM",
-        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_2",
         image:
           "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -71,7 +75,9 @@ const groomsEventsByDay = [
   {
     date: "24th January 2025",
     dayNumber: 2,
-    dayLabel: { en: "Day 2 - Babra", hi: "दिन 2", gu: "દિવસ 2" },
+    dayLabel: { en: "Day 2", hi: "दिन 2", gu: "દિવસ 2" },
+    location: { en: "Babra", hi: "बाबरा", gu: "બાબરા" },
+    mapUrl: "https://maps.google.com/?q=Babra,Gujarat",
     events: [
       {
         name: {
@@ -81,7 +87,6 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "8:00 AM",
-        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_3",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -93,7 +98,6 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "10:00 AM",
-        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_4",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -105,7 +109,6 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "12:00 PM",
-        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_5",
         image:
           "https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -117,7 +120,6 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "3:30 PM",
-        mapUrl: "https://maps.google.com/?q=GROOM_LOCATION_6",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -127,10 +129,12 @@ const groomsEventsByDay = [
     date: "25th January 2025",
     dayNumber: 3,
     dayLabel: {
-      en: "Day 3 - Rajkot",
+      en: "Day 3",
       hi: "दिन 3 - राजकोट",
       gu: "દિવસ 3 - રાજકોટ",
     },
+    location: { en: "Rajkot", hi: "राजकोट", gu: "રાજકોટ" },
+    mapUrl: "https://maps.google.com/?q=Rajkot,Gujarat",
     events: [
       {
         name: {
@@ -140,7 +144,6 @@ const groomsEventsByDay = [
         },
         date: "25th January 2025",
         time: "10:00 AM",
-        mapUrl: "https://maps.google.com/?q=Rajkot",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -152,7 +155,6 @@ const groomsEventsByDay = [
         },
         date: "25th January 2025",
         time: "11:00 AM",
-        mapUrl: "https://maps.google.com/?q=Rajkot",
         image:
           "https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -165,6 +167,11 @@ export default function Events({ language = "en" }: EventsProps) {
 
   const handleCardClick = (index: number) => {
     setSelectedDayIndex(index);
+  };
+
+  const handleMapClick = (e: React.MouseEvent, mapUrl: string) => {
+    e.stopPropagation();
+    window.open(mapUrl, "_blank", "noopener,noreferrer");
   };
 
   const getCardPosition = (index: number) => {
@@ -271,20 +278,31 @@ export default function Events({ language = "en" }: EventsProps) {
                     className="bg-white backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden border border-gray-200/50 p-3"
                   >
                     <div className="px-5 py-4">
-                      <div className="flex items-center justify-between">
-                        <div>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1">
                           <h3 className="font-serif text-lg font-bold text-slate-800 tracking-tight">
                             {day.dayLabel[language]}
                           </h3>
                           <p className="text-xs text-slate-500 mt-1 font-medium">
                             {day.date}
                           </p>
+
+                          <motion.button
+                            onClick={(e) => handleMapClick(e, day.mapUrl)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-rose-600 hover:text-rose-700 transition-colors"
+                          >
+                            <MapPin className="w-3.5 h-3.5" />
+                            {day.location[language]}
+                          </motion.button>
                         </div>
+
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ delay: 0.2, ...iosSoftSpring }}
-                          className="bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg shadow-rose-200/50"
+                          className="bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg shadow-rose-200/50 whitespace-nowrap"
                         >
                           {day.events.length}{" "}
                           {day.events.length === 1 ? "Event" : "Events"}
@@ -306,56 +324,39 @@ export default function Events({ language = "en" }: EventsProps) {
                           whileTap={{ scale: 0.98 }}
                           className="bg-gradient-to-br from-white to-rose-50/30 rounded-xl overflow-hidden transition-all duration-300"
                         >
-                          <div className="relative h-32 overflow-hidden">
+                          <div className="relative h-34 overflow-hidden">
                             <motion.div
                               whileHover={{ scale: 1.05 }}
                               transition={{ duration: 0.4 }}
                               className="w-full h-full"
                             >
-                              <Image
+                              <img
                                 src={event.image}
                                 alt={event.name[language]}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 340px"
-                                className="object-cover"
+                                className="w-full h-full object-cover"
                               />
                             </motion.div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                            <motion.h4
+
+                            <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/55 via-gray-900/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/20 via-gray-800/15 to-transparent blur-sm" />
+
+                            <motion.h5
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.1 }}
-                              className="absolute bottom-3 left-4 font-serif text-xl text-white drop-shadow-2xl font-semibold"
+                              className="absolute bottom-1 left-2 font-serif text-md text-white drop-shadow-2xl font-semibold flex items-center gap-1"
                             >
                               {event.name[language]}
-                            </motion.h4>
-                          </div>
-
-                          <div className="p-2 flex items-center justify-between gap-3 bg-pink-50">
-                            <div className="flex items-center gap-2 text-sm text-slate-700">
-                              <div className="bg-white p-1.5 rounded-lg">
-                                <Watch className="w-4 h-4 text-rose-500" />
-                              </div>
-                              <span className="font-medium">{event.time}</span>
-                            </div>
-
-                            <motion.a
-                              href={event.mapUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              whileHover={{ scale: 1.03, y: -1 }}
-                              whileTap={{ scale: 0.97 }}
-                              transition={iosSpring}
-                              className="flex items-center gap-2 text-sm font-semibold text-slate-700 underline"
+                            </motion.h5>
+                            <motion.h6
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.1 }}
+                              className="absolute bottom-1 right-2 font-serif text-md text-white drop-shadow-2xl font-semibold flex items-center gap-1"
                             >
-                              <div className="bg-white p-1.5 rounded-lg">
-                                <MapPin className="w-4 h-4 text-rose-500" />
-                              </div>
-                              <span className="font-medium">
-                                Go to location
-                              </span>
-                            </motion.a>
+                              <Clock className="w-3.5 h-3.5" />
+                              {event.time}
+                            </motion.h6>
                           </div>
                         </motion.div>
                       ))}
