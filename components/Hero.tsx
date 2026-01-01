@@ -175,14 +175,14 @@ export default function Hero({ language, guest }: HeroProps) {
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ ...appleSpring, delay: 0.5 }}
-                className="mb-22 mx-auto w-48 h-48"
+                className="mb-18 mx-auto w-48 h-48"
                 style={{
                   filter:
                     "drop-shadow(0 18px 28px rgba(0,0,0,0.25)) drop-shadow(0 0 18px rgba(255,182,193,0.35))",
                 }}
               >
                 <div
-                  className="relative w-72 h-72"
+                  className="relative w-68 h-68"
                   style={{ perspective: "1400px", marginLeft: "-45px" }}
                 >
                   <motion.div

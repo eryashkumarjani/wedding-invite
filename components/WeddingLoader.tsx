@@ -203,14 +203,14 @@ export default function WeddingLoader({
               duration: 5,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute top-44 z-20 flex justify-center"
+            className="absolute top-42 z-20 flex justify-center"
           >
             <div className="relative">
               <ProgressiveImage
                 src="/images/optimized/ganesha.webp"
                 alt="Ganesh Ji"
-                width={70}
-                height={70}
+                width={50}
+                height={50}
                 className="object-contain"
                 priority
                 transparent

@@ -1,6 +1,7 @@
 import { motion, PanInfo } from "framer-motion";
 import { useState } from "react";
 import { MapPin, Clock } from "lucide-react";
+import ProgressiveImage from "./ProgressiveImage";
 
 type Language = "en" | "hi" | "gu";
 
@@ -46,7 +47,7 @@ const groomsEventsByDay = [
     dayNumber: 1,
     dayLabel: { en: "Day 1", hi: "दिन 1", gu: "દિવસ 1" },
     location: { en: "Babra", hi: "बाबरा", gu: "બાબરા" },
-    mapUrl: "https://maps.google.com/?q=Babra,Gujarat",
+    mapUrl: "https://maps.app.goo.gl/xoUPNp8t32wtwX4H8",
     events: [
       {
         name: {
@@ -56,8 +57,7 @@ const groomsEventsByDay = [
         },
         date: "23rd January 2025",
         time: "5:00 PM",
-        image:
-          "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/sanjinaGeet.webp",
       },
       {
         name: {
@@ -67,8 +67,7 @@ const groomsEventsByDay = [
         },
         date: "23rd January 2025",
         time: "9:00 PM",
-        image:
-          "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/dandiyaRaas.webp",
       },
     ],
   },
@@ -77,7 +76,7 @@ const groomsEventsByDay = [
     dayNumber: 2,
     dayLabel: { en: "Day 2", hi: "दिन 2", gu: "દિવસ 2" },
     location: { en: "Babra", hi: "बाबरा", gu: "બાબરા" },
-    mapUrl: "https://maps.google.com/?q=Babra,Gujarat",
+    mapUrl: "https://maps.app.goo.gl/xoUPNp8t32wtwX4H8",
     events: [
       {
         name: {
@@ -87,8 +86,7 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "9:00 AM",
-        image:
-          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/mandapMuhrat.webp",
       },
       {
         name: {
@@ -98,8 +96,7 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "11:00 AM",
-        image:
-          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/mamera.webp",
       },
       {
         name: {
@@ -109,8 +106,7 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "12:30 PM",
-        image:
-          "https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/jamanvar.webp",
       },
       {
         name: {
@@ -120,8 +116,7 @@ const groomsEventsByDay = [
         },
         date: "24th January 2025",
         time: "3:30 PM",
-        image:
-          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/pithi.webp",
       },
     ],
   },
@@ -142,8 +137,7 @@ const groomsEventsByDay = [
         },
         date: "25th January 2025",
         time: "05:00 AM",
-        image:
-          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/janPrasthan.webp",
       },
       {
         name: {
@@ -153,8 +147,7 @@ const groomsEventsByDay = [
         },
         date: "25th January 2025",
         time: "9:00 AM",
-        image:
-          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/chundadiVidhi.webp",
       },
       {
         name: {
@@ -164,8 +157,7 @@ const groomsEventsByDay = [
         },
         date: "25th January 2025",
         time: "10:30 AM",
-        image:
-          "https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "/images/optimized/hastMelap.webp",
       },
     ],
   },
@@ -233,22 +225,22 @@ export default function Events({ language = "en" }: EventsProps) {
 
     if (normalized === -1) {
       return {
-        x: "-70%",
+        x: "-40%",
         scale: 0.5,
         y: 0,
         zIndex: 10,
-        opacity: 0.2,
+        opacity: 0.6,
         visible: true,
       };
     }
 
     if (normalized === 1) {
       return {
-        x: "70%",
+        x: "40%",
         scale: 0.5,
         y: 0,
         zIndex: 10,
-        opacity: 0.2,
+        opacity: 0.6,
         visible: true,
       };
     }
@@ -264,13 +256,13 @@ export default function Events({ language = "en" }: EventsProps) {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-rose-50 to-white p-4 overflow-hidden flex">
+    <section className="min-h-screen bg-gradient-to-b from-rose-50 to-white pb-4 overflow-hidden flex">
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={iosSoftSpring}
-          className="text-center my-12"
+          className="text-center my-8"
         >
           <h2 className="font-serif text-2xl text-slate-800">
             {translations.eventsTitle[language]}
@@ -361,7 +353,7 @@ export default function Events({ language = "en" }: EventsProps) {
                       </div>
                     </div>
 
-                    <div className="p-2 space-y-3 max-h-[350px] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-inner">
+                    <div className="p-2 space-y-3 max-h-[300px] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-inner">
                       {day.events.map((event, eventIndex) => (
                         <motion.div
                           key={eventIndex}
@@ -375,17 +367,23 @@ export default function Events({ language = "en" }: EventsProps) {
                           whileTap={{ scale: 0.98 }}
                           className="bg-gradient-to-br from-white to-rose-50/30 rounded-xl overflow-hidden transition-all duration-300"
                         >
-                          <div className="relative h-28 overflow-hidden">
+                          <div className="relative h-34 overflow-hidden">
                             <motion.div
                               whileHover={{ scale: 1.05 }}
                               transition={{ duration: 0.4 }}
                               className="w-full h-full"
                             >
-                              <img
-                                src={event.image}
-                                alt={event.name[language]}
-                                className="w-full h-full object-cover"
-                              />
+                              <div className="relative w-[245px] h-[135px] overflow-hidden">
+                                <ProgressiveImage
+                                  src={event.image}
+                                  alt="photos"
+                                  fill
+                                  priority
+                                  quality={90}
+                                  className="object-cover"
+                                  objectPosition="center 25%"
+                                />
+                              </div>
                             </motion.div>
 
                             <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/60 via-gray-900/35 to-transparent" />
@@ -420,7 +418,7 @@ export default function Events({ language = "en" }: EventsProps) {
         </div>
 
         {/* Swipe indicator */}
-        <div className="text-center mt-6">
+        <div className="text-center">
           <p className="text-xs text-slate-400">← Swipe to navigate →</p>
         </div>
       </div>

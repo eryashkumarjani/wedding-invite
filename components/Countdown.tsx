@@ -167,7 +167,7 @@ export default function Countdown({
         </div>
       )}
 
-      <div className="relative w-full max-w-7xl z-10 mb-8">
+      <div className="relative w-full max-w-7xl z-10 mb-12">
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

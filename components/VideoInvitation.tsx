@@ -48,7 +48,7 @@ export default function VideoInvitation({ language }: VideoInvitationProps) {
   const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`;
 
   return (
-    <section className="min-h-screen flex items-center justify-center p-6 bg-white font-sans">
+    <section className="min-h-screen flex items-center justify-center px-6 pt-0 pb-12 bg-white font-sans">
       <div className="w-full max-w-md">
         {/* TITLE */}
         <motion.div {...iosFadeUp} className="text-center mb-3">

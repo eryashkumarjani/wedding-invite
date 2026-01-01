@@ -59,7 +59,8 @@ function HomeContent() {
 
   // FIX 1: Bottom nav timer with proper cleanup
   useEffect(() => {
-    const timer = setTimeout(() => setShowBottomNav(true), 500);
+    setShowBottomNav(false); // Pehle hide karo
+    const timer = setTimeout(() => setShowBottomNav(true), 5000); // 5000ms = 5 seconds
     return () => clearTimeout(timer);
   }, [currentScreen]);
 
