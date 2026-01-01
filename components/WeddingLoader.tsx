@@ -27,12 +27,23 @@ export default function WeddingLoader({
   const [showLoader, setShowLoader] = useState(true);
   const [showTyping, setShowTyping] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Use refs to prevent stale closures
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const mainTimerRef = useRef<NodeJS.Timeout | null>(null);
   const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
+
+  // Check if mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Preload images
   useEffect(() => {
@@ -182,7 +193,6 @@ export default function WeddingLoader({
         >
           {/* Hawan Background Image */}
           <div className="absolute inset-0">
-            {/* <ProgressiveImage */}
             <ProgressiveImage
               src="/images/optimized/hawan.webp"
               alt="Hawan Background"
@@ -218,19 +228,16 @@ export default function WeddingLoader({
             </div>
           </motion.div>
 
-          {/* Groom - Coming from Left to Center - Responsive positioning */}
+          {/* Groom - Coming from Left to Center - Smooth Animation */}
           <motion.div
-            initial={{ x: "-50vw", opacity: 0.5 }}
+            initial={{ x: "-100vw", opacity: 0 }}
             animate={{
-              x:
-                typeof window !== "undefined" && window.innerWidth < 640
-                  ? -120
-                  : -0,
+              x: isMobile ? -120 : 0,
               opacity: 1,
             }}
             transition={{
               duration: 5,
-              ease: [0.22, 1, 0.36, 1],
+              ease: [0.25, 0.46, 0.45, 0.94], // Smooth cubic bezier
             }}
             className="absolute left-0 bottom-8 z-30"
           >
@@ -247,19 +254,16 @@ export default function WeddingLoader({
             </div>
           </motion.div>
 
-          {/* Bride - Coming from Right to Center - Responsive positioning */}
+          {/* Bride - Coming from Right to Center - Smooth Animation */}
           <motion.div
-            initial={{ x: "50vw", opacity: 0.5 }}
+            initial={{ x: "100vw", opacity: 0 }}
             animate={{
-              x:
-                typeof window !== "undefined" && window.innerWidth < 640
-                  ? 120
-                  : 180,
+              x: isMobile ? 120 : 180,
               opacity: 1,
             }}
             transition={{
               duration: 5,
-              ease: [0.22, 1, 0.36, 1],
+              ease: [0.25, 0.46, 0.45, 0.94], // Smooth cubic bezier
             }}
             className="absolute right-0 bottom-6 z-20"
           >

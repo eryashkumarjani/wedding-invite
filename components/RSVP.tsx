@@ -399,7 +399,7 @@ export default function RSVP({
       {/* 🌄 BACKGROUND (Countdown style) */}
       <div className="absolute inset-0 z-0">
         <ProgressiveImage
-          src="/images/rsvp.png"
+          src="/images/optimized/rsvp.webp"
           alt="RSVP Background"
           fill
           priority
