@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, PanInfo } from "framer-motion";
 import { useState } from "react";
 import { MapPin, Clock } from "lucide-react";
 
@@ -81,12 +81,12 @@ const groomsEventsByDay = [
     events: [
       {
         name: {
-          en: "Mandap",
+          en: "Mandap Muhrat",
           hi: "मंडप",
           gu: "મંડપ",
         },
         date: "24th January 2025",
-        time: "8:00 AM",
+        time: "9:00 AM",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -97,7 +97,7 @@ const groomsEventsByDay = [
           gu: "મામેરા",
         },
         date: "24th January 2025",
-        time: "10:00 AM",
+        time: "11:00 AM",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -108,7 +108,7 @@ const groomsEventsByDay = [
           gu: "જમણવાર",
         },
         date: "24th January 2025",
-        time: "12:00 PM",
+        time: "12:30 PM",
         image:
           "https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -138,23 +138,32 @@ const groomsEventsByDay = [
     events: [
       {
         name: {
-          en: "Chundadi Vidhi",
-          hi: "चुनरी विधि",
-          gu: "ચુંદડી વિધિ",
+          en: "Jan Prasthan",
         },
         date: "25th January 2025",
-        time: "10:00 AM",
+        time: "05:00 AM",
         image:
           "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
       {
         name: {
-          en: "Varghodo",
+          en: "Chundadi Vidhi",
+          hi: "चुनरी विधि",
+          gu: "ચુંદડી વિધિ",
+        },
+        date: "25th January 2025",
+        time: "9:00 AM",
+        image:
+          "https://images.pexels.com/photos/8887070/pexels-photo-8887070.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        name: {
+          en: "Hast Melap",
           hi: "वरघोड़ा",
           gu: "વરઘોડો",
         },
         date: "25th January 2025",
-        time: "11:00 AM",
+        time: "10:30 AM",
         image:
           "https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=600",
       },
@@ -164,14 +173,43 @@ const groomsEventsByDay = [
 
 export default function Events({ language = "en" }: EventsProps) {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleCardClick = (index: number) => {
-    setSelectedDayIndex(index);
+    if (!isDragging) {
+      setSelectedDayIndex(index);
+    }
   };
 
   const handleMapClick = (e: React.MouseEvent, mapUrl: string) => {
     e.stopPropagation();
     window.open(mapUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const swipeThreshold = 50;
+    const offset = info.offset.x;
+    const velocity = info.velocity.x;
+
+    // Swipe left (next)
+    if (offset < -swipeThreshold || velocity < -500) {
+      setSelectedDayIndex((prev) =>
+        prev < groomsEventsByDay.length - 1 ? prev + 1 : prev
+      );
+    }
+    // Swipe right (previous)
+    else if (offset > swipeThreshold || velocity > 500) {
+      setSelectedDayIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    }
+
+    setTimeout(() => setIsDragging(false), 100);
   };
 
   const getCardPosition = (index: number) => {
@@ -243,7 +281,7 @@ export default function Events({ language = "en" }: EventsProps) {
           </p>
         </motion.div>
 
-        <div className="relative">
+        <div className="relative touch-pan-y">
           <div className="relative h-[480px] flex items-center justify-center">
             {groomsEventsByDay.map((day, dayIndex) => {
               const position = getCardPosition(dayIndex);
@@ -260,6 +298,11 @@ export default function Events({ language = "en" }: EventsProps) {
                     opacity: position.opacity,
                     zIndex: position.zIndex,
                   }}
+                  drag={isCenter ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.1}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
                   transition={{
                     x: iosSpring,
                     y: iosSpring,
@@ -267,13 +310,21 @@ export default function Events({ language = "en" }: EventsProps) {
                     opacity: iosFade,
                   }}
                   onClick={() => handleCardClick(dayIndex)}
-                  className={`absolute w-[320px] cursor-pointer ${
+                  className={`absolute w-[290px] cursor-pointer select-none ${
                     !position.visible ? "pointer-events-none" : ""
                   }`}
                 >
                   <motion.div
-                    whileHover={isCenter ? { y: -6, scale: 1.02 } : undefined}
-                    whileTap={isCenter ? { scale: 0.98 } : { scale: 0.95 }}
+                    whileHover={
+                      isCenter && !isDragging
+                        ? { y: -6, scale: 1.02 }
+                        : undefined
+                    }
+                    whileTap={
+                      isCenter && !isDragging
+                        ? { scale: 0.98 }
+                        : { scale: 0.95 }
+                    }
                     transition={iosSoftSpring}
                     className="bg-white backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden border border-gray-200/50 p-3"
                   >
@@ -324,7 +375,7 @@ export default function Events({ language = "en" }: EventsProps) {
                           whileTap={{ scale: 0.98 }}
                           className="bg-gradient-to-br from-white to-rose-50/30 rounded-xl overflow-hidden transition-all duration-300"
                         >
-                          <div className="relative h-34 overflow-hidden">
+                          <div className="relative h-28 overflow-hidden">
                             <motion.div
                               whileHover={{ scale: 1.05 }}
                               transition={{ duration: 0.4 }}
@@ -337,14 +388,14 @@ export default function Events({ language = "en" }: EventsProps) {
                               />
                             </motion.div>
 
-                            <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/55 via-gray-900/30 to-transparent" />
-                            <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/20 via-gray-800/15 to-transparent blur-sm" />
+                            <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/60 via-gray-900/35 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-black/25 via-gray-800/25 to-transparent blur-sm" />
 
                             <motion.h5
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.1 }}
-                              className="absolute bottom-1 left-2 font-serif text-md text-white drop-shadow-2xl font-semibold flex items-center gap-1"
+                              className="absolute bottom-1 left-2 font-serif text-xs text-white drop-shadow-2xl font-semibold flex items-center gap-1"
                             >
                               {event.name[language]}
                             </motion.h5>
@@ -352,7 +403,7 @@ export default function Events({ language = "en" }: EventsProps) {
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.1 }}
-                              className="absolute bottom-1 right-2 font-serif text-md text-white drop-shadow-2xl font-semibold flex items-center gap-1"
+                              className="absolute bottom-1 right-2 font-serif text-xs text-white drop-shadow-2xl font-semibold flex items-center gap-1"
                             >
                               <Clock className="w-3.5 h-3.5" />
                               {event.time}
@@ -366,6 +417,11 @@ export default function Events({ language = "en" }: EventsProps) {
               );
             })}
           </div>
+        </div>
+
+        {/* Swipe indicator */}
+        <div className="text-center mt-6">
+          <p className="text-xs text-slate-400">← Swipe to navigate →</p>
         </div>
       </div>
     </section>
