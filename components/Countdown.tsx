@@ -266,11 +266,11 @@ export default function Countdown({
                 className="w-4 h-4 md:w-5 md:h-5 text-rose-300"
                 fill="currentColor"
               />
-
               {language === "en" && "Every moment brings us closer"}
               {language === "hi" && "हर पल हमें करीब लाता है"}
               {language === "gu" && "દરેક ક્ષણ અમને નજીક લાવે છે"}
-
+              {language === "ko" &&
+                "모든 순간이 우리를 더 가깝게 만듭니다"}{" "}
               <Heart
                 className="w-4 h-4 md:w-5 md:h-5 text-rose-300"
                 fill="currentColor"

@@ -39,6 +39,9 @@ export default function Hero({ language, guest }: HeroProps) {
   // Derive showMainContent: if no guest, always show main content
   const showMainContent = !guest || greetingComplete;
 
+  // ✅ CHANGED: Always show name in English regardless of language
+  const guestName = guest?.name || null;
+
   /* ===========================
      GREETING ANIMATION
   =========================== */
@@ -73,22 +76,7 @@ export default function Hero({ language, guest }: HeroProps) {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [guestKey, greetingControls, guest]); // Use guestKey instead of guest to trigger re-runs
-
-  const getGuestName = () => {
-    if (!guest) return null;
-
-    switch (language) {
-      case "hi":
-        return guest.nameHi;
-      case "gu":
-        return guest.nameGu;
-      default:
-        return guest.name;
-    }
-  };
-
-  const guestName = getGuestName();
+  }, [guestKey, greetingControls, guest]);
 
   return (
     <section className="min-h-screen px-6 bg-gradient-to-b from-rose-50/30 to-white">
@@ -118,6 +106,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 {language === "en" && "Dear"}
                 {language === "hi" && "प्रिय"}
                 {language === "gu" && "પ્રિય"}
+                {language === "ko" && "친애하는"}
               </motion.p>
 
               <motion.h3
@@ -157,6 +146,7 @@ export default function Hero({ language, guest }: HeroProps) {
                 {language === "en" && "Together With Their Families"}
                 {language === "hi" && "अपने परिवारों के साथ"}
                 {language === "gu" && "તેમના પરિવારો સાથે"}
+                {language === "ko" && "가족과 함께"}
               </motion.p>
 
               <motion.h1

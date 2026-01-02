@@ -101,11 +101,17 @@ function HomeContent() {
         en: "View Countdown",
         hi: "काउंटडाउन देखें",
         gu: "કાઉન્ટડાઉન જુઓ",
+        ko: "카운트다운 보기",
       },
     },
     {
       component: <Countdown language={language} />,
-      nextLabel: { en: "Watch Video", hi: "वीडियो देखें", gu: "વીડિયો જુઓ" },
+      nextLabel: {
+        en: "Watch Video",
+        hi: "वीडियो देखें",
+        gu: "વીડિયો જુઓ",
+        ko: "비디오 보기",
+      },
     },
     {
       component: <VideoInvitation language={language} />,
@@ -113,11 +119,17 @@ function HomeContent() {
         en: "View Events",
         hi: "कार्यक्रम देखें",
         gu: "કાર્યક્રમો જુઓ",
+        ko: "행사 보기",
       },
     },
     {
       component: <Events language={language} />,
-      nextLabel: { en: "RSVP Now", hi: "जवाब दें", gu: "જવાબ આપો" },
+      nextLabel: {
+        en: "RSVP Now",
+        hi: "जवाब दें",
+        gu: "જવાબ આપો",
+        ko: "지금 응답",
+      },
     },
     {
       component: (
@@ -134,11 +146,17 @@ function HomeContent() {
           }}
         />
       ),
-      nextLabel: { en: "Submit", hi: "पूर्ण", gu: "પૂર્ણ" },
+      nextLabel: {
+        en: "Submit",
+        hi: "पूर्ण",
+        gu: "પૂર્ણ",
+        ko: "제출",
+      },
       submitLabel: {
         en: "Submitting...",
         hi: "जमा हो रहा है...",
         gu: "સબમિટ થઈ રહ્યું છે...",
+        ko: "제출 중...",
       },
     },
   ];

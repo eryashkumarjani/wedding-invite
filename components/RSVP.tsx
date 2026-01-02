@@ -8,7 +8,7 @@ import { Guest } from "@/lib/guestData";
 import ProgressiveImage from "./ProgressiveImage"; // ✅ ADDED
 
 interface RSVPProps {
-  language: "en" | "hi" | "gu";
+  language: "en" | "hi" | "gu" | "ko"; // Make sure "ko" is included here
   onSubmitSuccess?: () => void;
   onFormValidChange?: (isValid: boolean) => void;
   onSubmittingChange?: (isSubmitting: boolean) => void;
@@ -22,48 +22,62 @@ const translations = {
     en: "RSVP",
     hi: "उपस्थिति की पुष्टि करें",
     gu: "હાજરીની પુષ્ટિ કરો",
+    ko: "참석 확인",
   },
   rsvpSubtitle: {
     en: "Please let us know if you can join us",
     hi: "कृपया हमें बताएं कि क्या आप हमारे साथ शामिल हो सकते हैं",
     gu: "કૃપા કરીને અમને જણાવો કે તમે અમારી સાથે જોડાઈ શકો છો",
+    ko: "참석 가능 여부를 알려주세요",
   },
   form: {
-    name: { en: "Full Name", hi: "पूरा नाम", gu: "પૂરું નામ" },
+    name: {
+      en: "Full Name",
+      hi: "पूरा नाम",
+      gu: "પૂરું નામ",
+      ko: "전체 이름",
+    },
     attending: {
       en: "Will you be attending?",
       hi: "क्या आप उपस्थित होंगे?",
       gu: "શું તમે હાજર રહેશો?",
+      ko: "참석하시겠습니까?",
     },
     yes: {
       en: "Yes, I'll be there!",
       hi: "हां, मैं वहां रहूंगा!",
       gu: "હા, હું ત્યાં હોઈશ!",
+      ko: "네, 참석하겠습니다!",
     },
     no: {
       en: "Sorry, can't make it",
       hi: "क्षमा करें, नहीं आ सकूंगा",
       gu: "માફ કરશો, આવી શકીશ નહીં",
+      ko: "죄송하지만 참석할 수 없습니다",
     },
     success: {
       en: "Thank you for your response!",
       hi: "आपकी प्रतिक्रिया के लिए धन्यवाद!",
       gu: "તમારા પ્રતિભાવ બદલ આભાર!",
+      ko: "응답해 주셔서 감사합니다!",
     },
     successMessage: {
       en: "We look forward to celebrating with you!",
       hi: "हम आपके साथ जश्न मनाने के लिए उत्सुक हैं",
       gu: "અમે તમારી સાથે ઉજવણી કરવા માટે આતુર છીએ!",
+      ko: "함께 축하할 수 있기를 기대합니다!",
     },
     successSubtitle: {
       en: "Your presence will make our day complete",
       hi: "आपकी उपस्थिति हमारे दिन को पूर्ण बना देगी",
       gu: "તમારી હાજરી અમારા દિવસને પૂર્ણ બનાવશે",
+      ko: "당신의 참석이 우리의 날을 완벽하게 만들 것입니다",
     },
     error: {
       en: "Something went wrong. Please try again.",
       hi: "कुछ गलत हुआ। कृपया पुनः प्रयास करें।",
       gu: "કંઈક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો.",
+      ko: "문제가 발생했습니다. 다시 시도해주세요.",
     },
   },
 };
@@ -93,19 +107,7 @@ export default function RSVP({
   const [showConfetti, setShowConfetti] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getGuestName = () => {
-    if (!guest) return null;
-    switch (language) {
-      case "hi":
-        return guest.nameHi;
-      case "gu":
-        return guest.nameGu;
-      default:
-        return guest.name;
-    }
-  };
-
-  const guestName = getGuestName();
+  const guestName = guest?.name || null;
 
   useEffect(() => {
     if (guestName) {
@@ -380,6 +382,8 @@ export default function RSVP({
               ? "मुख्य पृष्ठ पर जाएँ"
               : language === "gu"
               ? "મુખ્ય પાનું ખોલો"
+              : language === "ko"
+              ? "초대장으로 이동"
               : "Go to Invitation"}
           </motion.button>
         </motion.div>
@@ -405,6 +409,7 @@ export default function RSVP({
           priority
           sizes="100vw"
           className="object-cover object-center"
+          transparent
         />
 
         {/* dark overlay */}

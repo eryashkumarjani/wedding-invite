@@ -34,6 +34,13 @@ export default function WeddingLoader({
   const mainTimerRef = useRef<NodeJS.Timeout | null>(null);
   const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
+  const hasStartedRef = useRef<boolean>(false);
+  const onLoadingCompleteRef = useRef(onLoadingComplete);
+
+  // Keep the callback ref updated
+  useEffect(() => {
+    onLoadingCompleteRef.current = onLoadingComplete;
+  }, [onLoadingComplete]);
 
   // Check if mobile on mount
   useEffect(() => {
@@ -92,6 +99,10 @@ export default function WeddingLoader({
   useEffect(() => {
     if (!imagesLoaded || showTyping) return;
 
+    // Prevent multiple executions
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+
     startTimeRef.current = Date.now();
 
     progressIntervalRef.current = setInterval(() => {
@@ -102,13 +113,14 @@ export default function WeddingLoader({
       if (calculatedProgress >= 100) {
         if (progressIntervalRef.current) {
           clearInterval(progressIntervalRef.current);
+          progressIntervalRef.current = null;
         }
       }
     }, INTERVAL_TIME);
 
     mainTimerRef.current = setTimeout(() => {
       setShowLoader(false);
-      setTimeout(() => onLoadingComplete(), 500);
+      setTimeout(() => onLoadingCompleteRef.current(), 500);
     }, TOTAL_TIME);
 
     return () => {
@@ -119,7 +131,7 @@ export default function WeddingLoader({
         clearTimeout(mainTimerRef.current);
       }
     };
-  }, [onLoadingComplete, imagesLoaded, showTyping]);
+  }, [imagesLoaded, showTyping]);
 
   const loadingText = "Loading your invitation...";
 

@@ -73,8 +73,10 @@ export default function LanguageSelector({
   // Compute showModal based on state instead of managing it separately
   const showModal = selectedLanguage === null;
 
+  // UPDATE languages array:
   const languages = [
     { lang: "en" as Language, label: "English", native: "English", flag: "🇬🇧" },
+    { lang: "ko" as Language, label: "Korean", native: "한국어", flag: "🇰🇷" }, // ADD
     { lang: "hi" as Language, label: "Hindi", native: "हिंदी", flag: "🇮🇳" },
     {
       lang: "gu" as Language,
