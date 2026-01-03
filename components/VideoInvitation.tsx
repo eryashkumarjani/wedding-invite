@@ -44,8 +44,8 @@ const iosScale = {
 export default function VideoInvitation({ language }: VideoInvitationProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const youtubeVideoId = "izdaynHU4w0";
-  const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`;
+  const youtubeVideoId = "EE4zkbM9xng";
+  const youtubeThumbnail = `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`;
 
   return (
     <section className="min-h-screen flex items-center justify-center px-6 pt-0 pb-12 bg-white font-sans">

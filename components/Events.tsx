@@ -65,7 +65,7 @@ const groomsEventsByDay = [
           en: "Sanjina Geet",
           hi: "सांजिना गीत",
           gu: "સાંજિના ગીત",
-          ko: "산지나 गीत (전통 노래)",
+          ko: "산지나 기트",
         },
         date: "23rd January 2025",
         time: "5:00 PM",
@@ -75,7 +75,7 @@ const groomsEventsByDay = [
         name: {
           en: "Dandiya Raas",
           hi: "डांडिया रास",
-          gu: "ડાંડીયા રાસ",
+          gu: "ડાંડિયા રાસ",
           ko: "단디야 라스",
         },
         date: "23rd January 2025",
@@ -104,8 +104,8 @@ const groomsEventsByDay = [
       {
         name: {
           en: "Mandap Muhrat",
-          hi: "मंडप",
-          gu: "મંડપ",
+          hi: "मंडप मुहूर्त",
+          gu: "મંડપ મુહૂર્ત",
           ko: "만답 무후르트",
         },
         date: "24th January 2025",
@@ -117,7 +117,7 @@ const groomsEventsByDay = [
           en: "Mamera",
           hi: "मामेरा",
           gu: "મામેરા",
-          ko: "마메라 의식",
+          ko: "마메라",
         },
         date: "24th January 2025",
         time: "11:00 AM",
@@ -128,7 +128,7 @@ const groomsEventsByDay = [
           en: "Jamanvar",
           hi: "जमणवार",
           gu: "જમણવાર",
-          ko: "자만바르 (연회)",
+          ko: "자만바르",
         },
         date: "24th January 2025",
         time: "12:30 PM",
@@ -137,9 +137,9 @@ const groomsEventsByDay = [
       {
         name: {
           en: "Pithi",
-          hi: "पीठी समारोह",
+          hi: "पीठी",
           gu: "પીઠી",
-          ko: "피티 의식",
+          ko: "피티",
         },
         date: "24th January 2025",
         time: "3:30 PM",
@@ -152,9 +152,9 @@ const groomsEventsByDay = [
     dayNumber: 3,
     dayLabel: {
       en: "Day 3",
-      hi: "दिन 3 - राजकोट",
-      gu: "દિવસ 3 - રાજકોટ",
-      ko: "3일차 - 라지코트",
+      hi: "दिन 3",
+      gu: "દિવસ 3",
+      ko: "3일차",
     },
     location: {
       en: "Rajkot",
@@ -166,10 +166,10 @@ const groomsEventsByDay = [
     events: [
       {
         name: {
-          en: "Jan Prasthan",
-          hi: "जन प्रस्थान",
-          gu: "જન પ્રસ્થાન",
-          ko: "잔 프라સ્થાન (출발 의식)",
+          en: "Jaan Prasthan",
+          hi: "जान प्रस्थान",
+          gu: "જાન પ્રસ્થાન",
+          ko: "잔 프라스탄",
         },
         date: "25th January 2025",
         time: "05:00 AM",
@@ -178,9 +178,9 @@ const groomsEventsByDay = [
       {
         name: {
           en: "Chundadi Vidhi",
-          hi: "चुनरी विधि",
+          hi: "चुंदड़ी विधि",
           gu: "ચુંદડી વિધિ",
-          ko: "춘다디 의식",
+          ko: "춘다디 비디",
         },
         date: "25th January 2025",
         time: "9:00 AM",
@@ -189,8 +189,8 @@ const groomsEventsByDay = [
       {
         name: {
           en: "Hast Melap",
-          hi: "वरघोड़ा",
-          gu: "વરઘોડો",
+          hi: "हस्त मेलाप",
+          gu: "હસ્ત મેલાપ",
           ko: "하스트 멜랍",
         },
         date: "25th January 2025",
