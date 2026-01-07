@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { Language } from "@/types";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Smartphone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { getGuestById } from "@/lib/guestData";
@@ -36,6 +36,110 @@ const iosSoftSpring = {
   mass: 1,
 };
 
+/* ───────────────────────── Mobile Device Detector ───────────────────────── */
+
+function MobileOnlyWrapper({ children }: { children: React.ReactNode }) {
+  const [isMobile, setIsMobile] = useState(true);
+  const [isPortrait, setIsPortrait] = useState(true);
+  const [currentWidth, setCurrentWidth] = useState(0);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      setIsMobile(width <= 768);
+      setIsPortrait(height > width);
+      setCurrentWidth(width);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+    window.addEventListener("orientationchange", checkDevice);
+
+    return () => {
+      window.removeEventListener("resize", checkDevice);
+      window.removeEventListener("orientationchange", checkDevice);
+    };
+  }, []);
+
+  // Desktop/Tablet Message
+  if (!isMobile) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-red-50 flex items-center justify-center p-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ ...iosSpring }}
+          className="max-w-md text-center"
+        >
+          <div className="bg-white rounded-3xl shadow-2xl p-8 space-y-6">
+            <motion.div
+              animate={{ rotate: [0, -10, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto"
+            >
+              <Smartphone className="w-10 h-10 text-rose-600" />
+            </motion.div>
+
+            <h1 className="text-3xl font-bold text-gray-800">
+              View on Mobile Device
+            </h1>
+
+            <p className="text-gray-600 leading-relaxed text-lg">
+              This wedding invitation is optimized for mobile devices for the
+              best experience.
+            </p>
+
+            <div className="bg-rose-50 rounded-2xl p-4 text-sm text-rose-700 border border-rose-200">
+              📱 Please open this link on your smartphone or reduce your browser
+              width to less than 768px
+            </div>
+
+            <div className="pt-4 text-xs text-gray-400 font-mono">
+              Current width: {currentWidth}px • Need: ≤ 768px
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Landscape Warning
+  if (isMobile && !isPortrait) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-rose-400 to-pink-600 flex items-center justify-center p-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center text-white"
+        >
+          <motion.div
+            animate={{ rotate: 90 }}
+            transition={{ duration: 0.5 }}
+            className="mb-6"
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <Smartphone className="w-20 h-20 mx-auto" />
+            </motion.div>
+          </motion.div>
+
+          <h2 className="text-2xl font-bold mb-3">Please Rotate Your Device</h2>
+
+          <p className="text-rose-100 text-lg">
+            For better experience, please use portrait mode
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
+
 /* ───────────────────────── Main Content Component ───────────────────────── */
 
 function HomeContent() {
@@ -57,14 +161,12 @@ function HomeContent() {
     return null;
   }, [inviteId]);
 
-  // FIX 1: Bottom nav timer with proper cleanup
   useEffect(() => {
-    setShowBottomNav(false); // Pehle hide karo
-    const timer = setTimeout(() => setShowBottomNav(true), 5000); // 5000ms = 5 seconds
+    setShowBottomNav(false);
+    const timer = setTimeout(() => setShowBottomNav(true), 5000);
     return () => clearTimeout(timer);
   }, [currentScreen]);
 
-  // FIX 2: Invalid invite auto-hide after 5 seconds
   useEffect(() => {
     if (inviteId && !guest && showInvalidInvite) {
       const timer = setTimeout(() => setShowInvalidInvite(false), 5000);
@@ -72,23 +174,27 @@ function HomeContent() {
     }
   }, [inviteId, guest, showInvalidInvite]);
 
-  // FIX 3: Scroll to top on screen change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentScreen]);
 
-  // FIX 4: Language update with localStorage persistence
   const handleLanguageChange = useCallback((lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem("selectedLanguage", lang);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedLanguage", lang);
+    }
     setShowLanguageSelector(false);
   }, []);
 
   const handleLoadingComplete = () => {
     setShowLoader(false);
-    const selectedLang = localStorage.getItem("selectedLanguage") as Language;
-    if (selectedLang) {
-      setLanguage(selectedLang);
+    if (typeof window !== "undefined") {
+      const selectedLang = localStorage.getItem("selectedLanguage") as Language;
+      if (selectedLang) {
+        setLanguage(selectedLang);
+      } else {
+        setShowLanguageSelector(true);
+      }
     } else {
       setShowLanguageSelector(true);
     }
@@ -179,7 +285,7 @@ function HomeContent() {
   const shouldShowBottomNav = !(currentScreen === 4 && isRSVPSubmitted);
 
   return (
-    <>
+    <MobileOnlyWrapper>
       {showLoader && (
         <WeddingLoader onLoadingComplete={handleLoadingComplete} />
       )}
@@ -190,7 +296,6 @@ function HomeContent() {
 
       {!showLoader && !showLanguageSelector && (
         <>
-          {/* Invalid Invite - Auto dismisses after 5s */}
           {inviteId && !guest && showInvalidInvite && (
             <motion.div
               initial={{ opacity: 0, y: -12 }}
@@ -203,7 +308,6 @@ function HomeContent() {
             </motion.div>
           )}
 
-          {/* Screen Transitions */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentScreen}
@@ -216,7 +320,6 @@ function HomeContent() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Bottom Navigation */}
           <AnimatePresence>
             {shouldShowBottomNav && showBottomNav && (
               <motion.div
@@ -261,7 +364,7 @@ function HomeContent() {
           </AnimatePresence>
         </>
       )}
-    </>
+    </MobileOnlyWrapper>
   );
 }
 
