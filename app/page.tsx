@@ -48,7 +48,8 @@ function MobileOnlyWrapper({ children }: { children: React.ReactNode }) {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      setIsMobile(width <= 768);
+      // Strict mobile-only check (no iPad, tablets, or desktops)
+      setIsMobile(width <= 480);
       setIsPortrait(height > width);
       setCurrentWidth(width);
     };
